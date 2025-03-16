@@ -332,6 +332,72 @@ public class Refresher {
     public void test_00(){
         System.out.println(new ArrayList<Integer>()==null);
     }
+    class TestItClass00 implements Iterable<Integer> {
+        private int[] data;
+        private int size;
+
+        /*
+        ai gened but then adapted
+        Was wondering if I'd have to make a spliterator which I don't get
+         */
+
+        public TestItClass00() {
+            this.data = new int[]{1, 2, 3, 4, 5};
+            this.size = 5;
+        }
+
+        @Override
+        public Iterator<Integer> iterator() {
+            return new TestIt();
+        }
+
+
+        //had forgotten Implements for Interfaces
+        private class TestIt implements Iterator<Integer> {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < size;
+            }
+
+            @Override
+            public Integer next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return data[currentIndex++];
+            }
+        }
+    }
+
+    public void ex10(){
+        //iterators review
+
+
+        Set<Integer> s = new HashSet<>(List.of(-1,1,3));
+        Set<Integer> s1 = new HashSet<>(List.of(3,-1,1));
+
+        /*
+        Collections are ITERABLE, which means they have the iterator method,
+        which generates an iterable
+
+        the iterable has hasnext and next methods
+
+
+         */
+        System.out.println(s.iterator().next());
+        System.out.println(s.iterator().next());
+        System.out.println(s.iterator().next());
+        System.out.println(s1.iterator().next());
+        /*
+        so to get one item out of a set, you need to get the iterator out of it and get the next out of it
+         */
+        for(int i: new TestItClass00()){
+            System.out.println(i);
+        }
+
+    }
 
     public static void main(String args[]){
         Refresher r = new Refresher();
@@ -356,6 +422,9 @@ public class Refresher {
 
         System.out.println("---test00---");
         r.test_00();
+
+        System.out.println("---ex10---");
+        r.ex10();
 
 
     }
